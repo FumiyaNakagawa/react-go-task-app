@@ -1,5 +1,5 @@
 import React from 'react';
-import TaskListItem, { TaskItem } from './components/taskListItem'
+import TaskListItem, { TaskItem } from './components/TaskListItem'
 
 import './App.css';
 
