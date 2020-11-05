@@ -1,4 +1,6 @@
 import React from 'react';
+import Header from './components/Header';
+import Footer from './components/Footer';
 import TaskListItem, { TaskItem } from './components/TaskListItem'
 
 import './App.css';
@@ -25,7 +27,9 @@ const App = () => {
 
   return (
     <div>
+      <Header/>
       <TaskListItem taskItems={taskItems}/>
+      <Footer/>
     </div>
   );
 }
