@@ -1,24 +1,31 @@
 import React from 'react';
-import logo from './logo.svg';
+import TaskListItem, { TaskItem } from './components/taskListItem'
+
 import './App.css';
 
-function App() {
+const App = () => {
+  const taskItems: TaskItem[] = [
+    {
+      id: 1,
+      task: 'aaaa'
+    },
+    {
+      id: 2,
+      task: 'bbbb'
+    },
+    {
+      id: 3,
+      task: 'cccc'
+    }
+  ];
+
+
+  
+  console.log(taskItems.map(c => c.task))
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          // href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <TaskListItem taskItems={taskItems}/>
     </div>
   );
 }
