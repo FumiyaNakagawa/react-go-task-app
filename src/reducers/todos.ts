@@ -10,18 +10,21 @@ export interface TodoState {
 }
 
 
-const initialState: any = {todos: {id: 1, text: "adfad"}};
+const initialState: Array<void> = [];
 
 const todoReducer = (
   state: any = initialState,
   action: TodoAction,
-): TodoState => {
+): any => {
   switch (action.type) {
     case TodoActionType.ADD:
-      return {
+      return [
         ...state,
-        todos: [ ...state, {id: action.id, text: action.text} ]
-      }
+        {
+          id: action.id,
+          text: action.text,
+        }
+      ]
       default:
         return state
   }

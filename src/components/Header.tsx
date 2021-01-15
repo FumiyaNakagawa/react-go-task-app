@@ -1,10 +1,13 @@
 import React, { FC } from 'react';
+import Grid from '@material-ui/core/Grid';
 
-const Header = () => {
+const Header: FC<{}> = () => {
   return (
-    <header>
-      <p>header</p>
-    </header>
+    <Grid item xs={12}>
+      <header>
+        <p>header</p>
+      </header>
+    </Grid>
   );
 }
 

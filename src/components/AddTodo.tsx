@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-const AddTodo: FC<{}> = (props) => {
+const AddTodo: FC<{}> = (props: any) => {
   let input: HTMLInputElement;
   
   console.log(props);
@@ -13,6 +13,7 @@ const AddTodo: FC<{}> = (props) => {
       <form action=""
         onSubmit={e => {
           e.preventDefault()
+          props.TaskNew(input.value)
           input.value = ""
         }}
       >
