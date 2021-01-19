@@ -1,4 +1,4 @@
-import { TodoAction, TodoActionType } from '../actions/index';
+import { TodoAction, TODO_ADD } from '../actions/index';
 
 export interface Todo {
   id?: number,
@@ -10,21 +10,19 @@ export interface TodoState {
 }
 
 
-const initialState: Array<void> = [];
+const initialState: any = {};
 
 const todoReducer = (
   state: any = initialState,
   action: TodoAction,
 ): any => {
   switch (action.type) {
-    case TodoActionType.ADD:
-      return [
+    case TODO_ADD:
+      console.log(state.tasks)
+      return {
         ...state,
-        {
-          id: action.id,
-          text: action.text,
-        }
-      ]
+        tasks: [{id: action.payload.id, text: action.payload.text}],
+      }
       default:
         return state
   }

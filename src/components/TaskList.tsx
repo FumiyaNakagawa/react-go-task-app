@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import TaskListItem, { TaskItem } from './TaskListItem';
-import AddTodo from './AddTodo';
+import AddTodo from '../containers/AddTodo';
 import Grid from '@material-ui/core/Grid';
 
 const TaskList: FC<{}> = () => {

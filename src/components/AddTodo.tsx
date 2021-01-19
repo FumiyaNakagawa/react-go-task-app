@@ -2,18 +2,21 @@ import React, { FC } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-const AddTodo: FC<{}> = (props: any) => {
-  let input: HTMLInputElement;
-  
-  console.log(props);
+export interface TaskNewProps {
+  TaskNew?: (text: string) => void;
+}
 
+const AddTodo: FC<TaskNewProps> = ({
+  TaskNew = () => undefined,
+}) => {
+  let input: HTMLInputElement;
 
   return (
     <div>
       <form action=""
         onSubmit={e => {
           e.preventDefault()
-          props.TaskNew(input.value)
+          TaskNew(input.value)
           input.value = ""
         }}
       >
