@@ -6,22 +6,21 @@ export interface Todo {
 }
 
 export interface TodoState {
-  todos: any;
+  status: string;
+  tasks: Todo[];
 }
 
-
-const initialState: any = {};
+const initialState: TodoState = {status: 'In Progress', tasks: []};
 
 const todoReducer = (
-  state: any = initialState,
+  state: TodoState = initialState,
   action: TodoAction,
-): any => {
+): TodoState => {
   switch (action.type) {
     case TODO_ADD:
-      console.log(state.tasks)
       return {
         ...state,
-        tasks: [{id: action.payload.id, text: action.payload.text}],
+        tasks: [...state.tasks, action.payload]
       }
       default:
         return state
