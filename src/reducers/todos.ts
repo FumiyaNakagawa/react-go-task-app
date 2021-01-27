@@ -12,6 +12,7 @@ export interface TodoState {
 
 const initialState: TodoState = {status: 'In Progress', tasks: []};
 
+// TODO: statusごとにタスク分ける
 const todoReducer = (
   state: TodoState = initialState,
   action: TodoAction,
