@@ -4,12 +4,11 @@ import AddTodo from "../containers/AddTodo";
 import Grid from "@material-ui/core/Grid";
 
 interface TaskListProps {
-  status: string;
   tasks: any;
 }
 
 // TODO: statusごとにタスク分ける
-const TaskList: FC<TaskListProps> = ({ status, tasks }) => {
+const TaskList: FC<TaskListProps> = ({ tasks }) => {
   return (
     <>
       <Grid item xs={4}>

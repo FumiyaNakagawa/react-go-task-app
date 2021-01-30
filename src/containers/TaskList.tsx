@@ -4,8 +4,7 @@ import { rootState } from "../reducers/index";
 
 
 const mapStateToProps = (state: rootState) => ({
-  status: state.todoReducer.status,
-  tasks: state.todoReducer.tasks,
+  tasks: state.todoReducer.backlog,
 })
 
 export default connect(mapStateToProps)(TaskList);
