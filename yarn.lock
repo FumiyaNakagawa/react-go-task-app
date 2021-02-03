@@ -1370,7 +1370,7 @@
     "@types/yargs" "^15.0.0"
     "chalk" "^4.0.0"
 
-"@material-ui/core@^4.11.0":
+"@material-ui/core@^4.0.0", "@material-ui/core@^4.11.0":
   "integrity" "sha512-bYo9uIub8wGhZySHqLQ833zi4ZML+XCBE1XwJ8EuUVSpTWWG57Pm+YugQToJNFsEyiKFhPh8DPD0bgupz8n01g=="
   "resolved" "https://registry.yarnpkg.com/@material-ui/core/-/core-4.11.0.tgz"
   "version" "4.11.0"
@@ -1387,6 +1387,13 @@
     "prop-types" "^15.7.2"
     "react-is" "^16.8.0"
     "react-transition-group" "^4.4.0"
+
+"@material-ui/icons@^4.11.2":
+  "integrity" "sha512-fQNsKX2TxBmqIGJCSi3tGTO/gZ+eJgWmMJkgDiOfyNaunNaxcklJQFaFogYcFl0qFuaEz1qaXYXboa/bUXVSOQ=="
+  "resolved" "https://registry.npmjs.org/@material-ui/icons/-/icons-4.11.2.tgz"
+  "version" "4.11.2"
+  dependencies:
+    "@babel/runtime" "^7.4.4"
 
 "@material-ui/styles@^4.10.0":
   "integrity" "sha512-XPwiVTpd3rlnbfrgtEJ1eJJdFCXZkHxy8TrdieaTvwxNYj42VnnCyFzxYeNW9Lhj4V1oD8YtQ6S5Gie7bZDf7Q=="
@@ -1779,7 +1786,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^16.8.6", "@types/react@^16.9.0":
+"@types/react@*", "@types/react@^16.8.6", "@types/react@^16.8.6 || ^17.0.0", "@types/react@^16.9.0":
   "integrity" "sha512-4nW60Sd4L7+WMXH1D6jCdVftuW7j4Za6zdp6tJ33Rqv0nk1ZAmQKML9ZLD4H0dehA3FZxXR/GM8gXplf82oNGw=="
   "resolved" "https://registry.yarnpkg.com/@types/react/-/react-16.9.53.tgz"
   "version" "16.9.53"
@@ -9195,7 +9202,7 @@
     "strip-ansi" "6.0.0"
     "text-table" "0.2.0"
 
-"react-dom@*", "react-dom@^16.14.0", "react-dom@^16.8.0", "react-dom@>=16.6.0":
+"react-dom@*", "react-dom@^16.14.0", "react-dom@^16.8.0", "react-dom@^16.8.0 || ^17.0.0", "react-dom@>=16.6.0":
   "integrity" "sha512-1gCeQXDLoIqMgqD3IO2Ah9bnf0w9kzhwN5q4FGnHZ67hBm9yePzB5JJAIQCc8x3pFnNlwFq4RidZggNAAkzWWw=="
   "resolved" "https://registry.yarnpkg.com/react-dom/-/react-dom-16.14.0.tgz"
   "version" "16.14.0"
@@ -9297,7 +9304,7 @@
     "loose-envify" "^1.4.0"
     "prop-types" "^15.6.2"
 
-"react@*", "react@^16.14.0", "react@^16.8.0", "react@^16.8.3", "react@>=16.6.0":
+"react@*", "react@^16.14.0", "react@^16.8.0", "react@^16.8.0 || ^17.0.0", "react@^16.8.3", "react@>=16.6.0":
   "integrity" "sha512-0X2CImDkJGApiAlcf0ODKIneSwBPhqJawOa5wCtKbu7ZECrmS26NvtSILynQ66cgkT/RJ4LidJOc3bUESwmU8g=="
   "resolved" "https://registry.yarnpkg.com/react/-/react-16.14.0.tgz"
   "version" "16.14.0"
