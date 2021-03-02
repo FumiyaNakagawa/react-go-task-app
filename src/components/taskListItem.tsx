@@ -10,6 +10,7 @@ import styled from "styled-components";
 export interface TaskItem {
   id: number;
   text: string;
+  title: string;
 }
 
 interface TaskItemProps {
@@ -27,7 +28,7 @@ const TaskListItem: FC<TaskItemProps> = ({ taskItems }) => {
                 <MoreVertIcon />
               </IconButton>
             }
-            title="title"
+            title={c.title}
             subheader="February 2, 2021"
           />
           <CardContent>

@@ -2,6 +2,7 @@ import { TodoAction, TODO_ADD } from "../actions/index";
 
 export interface Todo {
   id?: number;
+  title?: string;
   text?: string;
 }
 
