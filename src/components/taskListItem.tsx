@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { Todo } from "../reducers/todos";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
@@ -7,14 +8,8 @@ import Typography from "@material-ui/core/Typography";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import styled from "styled-components";
 
-export interface TaskItem {
-  id: number;
-  text: string;
-  title: string;
-}
-
 interface TaskItemProps {
-  taskItems: TaskItem[];
+  taskItems: Todo[];
 }
 
 const TaskListItem: FC<TaskItemProps> = ({ taskItems }) => {
