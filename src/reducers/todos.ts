@@ -4,6 +4,7 @@ export interface Todo {
   id?: number;
   title?: string;
   text?: string;
+  date?: Date;
 }
 
 export interface TodoState {

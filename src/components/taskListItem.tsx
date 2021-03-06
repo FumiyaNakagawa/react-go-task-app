@@ -24,7 +24,7 @@ const TaskListItem: FC<TaskItemProps> = ({ taskItems }) => {
               </IconButton>
             }
             title={c.title}
-            subheader="February 2, 2021"
+            subheader={"期日: " + c.date?.toLocaleDateString()}
           />
           <CardContent>
             <Typography variant="body2" color="textSecondary" component="p">
