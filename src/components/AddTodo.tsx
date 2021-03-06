@@ -1,35 +1,55 @@
-import React, { FC } from 'react';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+import React, { FC, useState } from "react";
+import { useForm } from "react-hook-form";
+import { Todo } from "../reducers/todos";
+import { TextField, Button } from "@material-ui/core";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export interface TaskNewProps {
-  TaskNew?: (text: string) => void;
+  TaskNew?: (task: Todo) => void;
 }
 
-const AddTodo: FC<TaskNewProps> = ({
-  TaskNew = () => undefined,
-}) => {
-  let input: HTMLInputElement;
+const AddTodo: FC<TaskNewProps> = ({ TaskNew = () => undefined }) => {
+  const { register, handleSubmit } = useForm<Todo>();
+
+  const [startDate, setStartDate] = useState(new Date());
+
+  const onSubmit = handleSubmit(({ title, text }) => {
+    console.log(title, text);
+
+    const task = {
+      title,
+      text,
+      date: startDate,
+    };
+
+    TaskNew(task);
+  });
 
   return (
-    <div>
-      <form action=""
-        onSubmit={e => {
-          e.preventDefault()
-          TaskNew(input.value)
-          input.value = ""
+    <form onSubmit={onSubmit}>
+      <TextField
+        id="outlined-basic"
+        label="タイトルを入力"
+        variant="outlined"
+        name="title"
+        defaultValue="test"
+        inputRef={register}
+      />
+      <TextField name="text" inputRef={register({ required: true })} />
+
+      <DatePicker
+        selected={startDate}
+        onChange={(date: Date) => {
+          setStartDate(date);
         }}
-      >
-        <TextField
-          inputRef={node => (input = node)}
-          id="outlined-basic"
-          label="タスクを入力"
-          variant="outlined"
-        />
-        <Button type="submit" variant="contained" color="secondary">追加する</Button>
-      </form>
-    </div>
+      />
+
+      <Button type="submit" variant="contained" color="secondary">
+        追加する
+      </Button>
+    </form>
   );
-}
+};
 
 export default AddTodo;
