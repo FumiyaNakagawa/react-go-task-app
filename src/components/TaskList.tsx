@@ -1,10 +1,11 @@
 import React, { FC } from "react";
 import TaskListItem from "./TaskListItem";
+import {Todo} from "../reducers/todos"
 import AddTodo from "../containers/AddTodo";
 import Grid from "@material-ui/core/Grid";
 
 interface TaskListProps {
-  tasks: any;
+  tasks: Todo[];
 }
 
 // TODO: statusごとにタスク分ける
