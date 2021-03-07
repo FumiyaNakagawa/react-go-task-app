@@ -15,4 +15,16 @@ export const addTodo = (task: Todo) => ({
   },
 });
 
-export type TodoAction = ReturnType<typeof addTodo>;
+export const deleteTodo = (task: Todo) => ({
+  type: TODO_DELETE as typeof TODO_DELETE,
+  payload: {
+    id: task.id,
+    title: task.title,
+    text: task.text,
+    date: task.date,
+  },
+});
+
+export type TodoAction =
+  | ReturnType<typeof addTodo>
+  | ReturnType<typeof deleteTodo>;

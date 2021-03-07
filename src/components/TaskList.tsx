@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import TaskListItem from "./TaskListItem";
+import TaskListItem from "../containers/TaskListItem";
 import { Todo } from "../reducers/todos";
 import AddTodo from "../containers/AddTodo";
 import Grid from "@material-ui/core/Grid";
@@ -17,7 +17,7 @@ const TaskList: FC<TaskListProps> = ({ tasks }) => {
           <AddTodo />
         </Grid>
         {tasks.map((task: Todo) => (
-          <TaskListItem key={task.id} taskItems={task} />
+          <TaskListItem key={task.id} task={task} />
         ))}
       </Grid>
       <Grid item xs={4}>

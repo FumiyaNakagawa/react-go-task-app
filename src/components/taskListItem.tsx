@@ -14,10 +14,14 @@ import {
 import styled from "styled-components";
 
 interface TaskItemProps {
-  taskItems: Todo;
+  task: Todo;
+  TaskDelete: (task: Todo) => void;
 }
 
-const TaskListItem: FC<TaskItemProps> = ({ taskItems }) => {
+const TaskListItem: FC<TaskItemProps> = ({
+  task,
+  TaskDelete = () => undefined,
+}) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -27,21 +31,26 @@ const TaskListItem: FC<TaskItemProps> = ({ taskItems }) => {
     setAnchorEl(null);
   };
 
+  const deleteTask = () => {
+    TaskDelete(task);
+    handleClose()
+  };
+
   return (
     <div>
-      <StyledCard key={taskItems.id}>
+      <StyledCard key={task.id}>
         <CardHeader
           action={
             <IconButton aria-label="settings" onClick={handleClick}>
               <MoreVertIcon />
             </IconButton>
           }
-          title={taskItems.title}
-          subheader={"期日: " + taskItems.date?.toLocaleDateString()}
+          title={task.title}
+          subheader={"期日: " + task.date?.toLocaleDateString()}
         />
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
-            {taskItems.text}
+            {task.text}
           </Typography>
         </CardContent>
         <Menu
@@ -51,7 +60,7 @@ const TaskListItem: FC<TaskItemProps> = ({ taskItems }) => {
           onClose={handleClose}
         >
           <MenuItem onClick={handleClose}>編集</MenuItem>
-          <MenuItem onClick={handleClose}>削除</MenuItem>
+          <MenuItem onClick={deleteTask}>削除</MenuItem>
         </Menu>
       </StyledCard>
     </div>
