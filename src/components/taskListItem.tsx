@@ -1,38 +1,68 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { Todo } from "../reducers/todos";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardContent from "@material-ui/core/CardContent";
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  IconButton,
+  Typography,
+  Menu,
+  MenuItem,
+} from "@material-ui/core";
+
 import styled from "styled-components";
 
 interface TaskItemProps {
-  taskItems: Todo[];
+  task: Todo;
+  TaskDelete: (task: Todo) => void;
 }
 
-const TaskListItem: FC<TaskItemProps> = ({ taskItems }) => {
+const TaskListItem: FC<TaskItemProps> = ({
+  task,
+  TaskDelete = () => undefined,
+}) => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const deleteTask = () => {
+    TaskDelete(task);
+    handleClose()
+  };
+
   return (
     <div>
-      {taskItems.map((c) => (
-        <StyledCard key={c.id}>
-          <CardHeader
-            action={
-              <IconButton aria-label="settings">
-                <MoreVertIcon />
-              </IconButton>
-            }
-            title={c.title}
-            subheader={"期日: " + c.date?.toLocaleDateString()}
-          />
-          <CardContent>
-            <Typography variant="body2" color="textSecondary" component="p">
-              {c.text}
-            </Typography>
-          </CardContent>
-        </StyledCard>
-      ))}
+      <StyledCard key={task.id}>
+        <CardHeader
+          action={
+            <IconButton aria-label="settings" onClick={handleClick}>
+              <MoreVertIcon />
+            </IconButton>
+          }
+          title={task.title}
+          subheader={"期日: " + task.date?.toLocaleDateString()}
+        />
+        <CardContent>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {task.text}
+          </Typography>
+        </CardContent>
+        <Menu
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <MenuItem onClick={handleClose}>編集</MenuItem>
+          <MenuItem onClick={deleteTask}>削除</MenuItem>
+        </Menu>
+      </StyledCard>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { TodoAction, TODO_ADD } from "../actions/index";
+import { TodoAction, TODO_ADD, TODO_DELETE } from "../actions/index";
 
 export interface Todo {
   id?: number;
@@ -28,6 +28,16 @@ const todoReducer = (
       return {
         ...state,
         backlog: [...state.backlog, action.payload],
+      };
+    case TODO_DELETE:
+      state.backlog.some(function (v, i) {
+        if (v.id == action.payload.id) state.backlog.splice(i, 1);
+      });
+
+      console.log(state);
+      return {
+        ...state,
+        backlog: [...state.backlog],
       };
     default:
       return state;
