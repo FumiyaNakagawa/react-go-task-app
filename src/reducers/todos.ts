@@ -5,18 +5,15 @@ export interface Todo {
   title?: string;
   text?: string;
   date?: Date;
+  statue?: string;
 }
 
 export interface TodoState {
-  backlog: Todo[];
-  inprogress: Todo[];
-  done: Todo[];
+  task: Todo[];
 }
 
 const initialState: TodoState = {
-  backlog: [],
-  inprogress: [],
-  done: [],
+  task: [],
 };
 
 const todoReducer = (
@@ -27,18 +24,17 @@ const todoReducer = (
     case TODO_ADD:
       return {
         ...state,
-        backlog: [...state.backlog, action.payload],
+        task: [...state.task, action.payload],
       };
     case TODO_DELETE:
-      state.backlog.some(function (v, i) {
-        if (v.id == action.payload.id) state.backlog.splice(i, 1);
+      state.task.some(function (v, i) {
+        if (v.id == action.payload.id) state.task.splice(i, 1);
       });
-
-      console.log(state);
       return {
         ...state,
-        backlog: [...state.backlog],
+        task: [...state.task],
       };
+      return state
     default:
       return state;
   }

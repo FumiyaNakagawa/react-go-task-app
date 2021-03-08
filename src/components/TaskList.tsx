@@ -24,7 +24,7 @@ const TaskList: FC<TaskListProps> = ({ tasks }) => {
         {/* <TaskListItem taskItems={tasks} /> */}
       </Grid>
       <Grid item xs={4}>
-        {/* <TaskListItem taskItems={tasks} /> */}ï
+        {/* <TaskListItem taskItems={tasks} /> */}
       </Grid>
     </>
   );
