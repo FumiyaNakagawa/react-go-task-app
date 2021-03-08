@@ -33,7 +33,7 @@ const TaskListItem: FC<TaskItemProps> = ({
 
   const deleteTask = () => {
     TaskDelete(task);
-    handleClose()
+    handleClose();
   };
 
   return (
