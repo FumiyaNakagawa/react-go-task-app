@@ -17,11 +17,10 @@ const TaskList: FC<TaskListProps> = ({ tasks }) => {
           <AddTodo />
         </Grid>
         {tasks.map((task: Todo) => {
-          if (task.status === 'backlog') {
-            return (
-              <TaskListItem key={task.id} task={task} />
-            )
+          if (task.status === "backlog") {
+            return <TaskListItem key={task.id} task={task} />;
           }
+          return false;
         })}
       </Grid>
       <Grid item xs={4}>

@@ -27,7 +27,17 @@ const todoReducer = (
         task: [...state.task, action.payload],
       };
     case TODO_DELETE:
-      return state;
+      state.task.map((task) => {
+        console.log(task.status);
+        if (task.id === action.payload.id) {
+          task.status = "delete";
+        }
+        return false;
+      });
+      return {
+        ...state,
+        task: [...state.task],
+      };
     default:
       return state;
   }

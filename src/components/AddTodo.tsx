@@ -21,7 +21,7 @@ const AddTodo: FC<TaskNewProps> = ({ TaskNew = () => undefined }) => {
       title,
       text,
       date: startDate,
-      status: 'backlog',
+      status: "backlog",
     };
 
     TaskNew(task);
