@@ -5,7 +5,7 @@ export interface Todo {
   title?: string;
   text?: string;
   date?: Date;
-  statue?: string;
+  status?: string;
 }
 
 export interface TodoState {
@@ -27,14 +27,7 @@ const todoReducer = (
         task: [...state.task, action.payload],
       };
     case TODO_DELETE:
-      state.task.some(function (v, i) {
-        if (v.id == action.payload.id) state.task.splice(i, 1);
-      });
-      return {
-        ...state,
-        task: [...state.task],
-      };
-      return state
+      return state;
     default:
       return state;
   }
