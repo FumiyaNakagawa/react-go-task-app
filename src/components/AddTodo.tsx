@@ -11,7 +11,6 @@ export interface TaskNewProps {
 
 const AddTodo: FC<TaskNewProps> = ({ TaskNew = () => undefined }) => {
   const { register, handleSubmit } = useForm<Todo>();
-
   const [startDate, setStartDate] = useState(new Date());
 
   const onSubmit = handleSubmit(({ title, text }) => {
