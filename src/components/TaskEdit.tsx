@@ -6,23 +6,27 @@ import { TextField, Button } from "@material-ui/core";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const EditTask: FC<{}> = () => {
+interface TaskItemProps {
+  task: Todo;
+  TaskEdit: (task: Todo) => void;
+}
+
+const EditTask: FC<TaskItemProps> = ({ task, TaskEdit = () => undefined }) => {
   const { register, handleSubmit } = useForm<Todo>();
   const [startDate, setStartDate] = useState(new Date());
 
   const onSubmit = handleSubmit(({ title, text }) => {
-    const task = {
+    const editTask = {
+      id: task.id,
       title,
       text,
       date: startDate,
-      status: "backlog",
+      status: task.status,
     };
 
-    console.log(task)
+    TaskEdit(editTask);
   });
-  
-  
-  
+
   return (
     <StyledModal>
       <form onSubmit={onSubmit}>
@@ -31,13 +35,17 @@ const EditTask: FC<{}> = () => {
           label="タイトルを入力"
           variant="outlined"
           name="title"
-          defaultValue="test"
+          defaultValue={task.title}
           inputRef={register}
         />
-        <TextField name="text" inputRef={register({ required: true })} />
+        <TextField
+          name="text"
+          defaultValue={task.text}
+          inputRef={register({ required: true })}
+        />
 
         <DatePicker
-          selected={startDate}
+          selected={task.date}
           onChange={(date: Date) => {
             setStartDate(date);
           }}

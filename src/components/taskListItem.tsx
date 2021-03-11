@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import { Todo } from "../reducers/todos";
-import EditTask from "./EditTask";
+import EditTask from "../containers/TaskEdit";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import {
   Card,
@@ -80,7 +80,7 @@ const TaskListItem: FC<TaskItemProps> = ({
           aria-labelledby="simple-modal-title"
           aria-describedby="simple-modal-description"
         >
-          <EditTask />
+          <EditTask task={task} />
         </Modal>
       </StyledCard>
     </div>
