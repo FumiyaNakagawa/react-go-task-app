@@ -1,5 +1,6 @@
 import React, { FC, useState } from "react";
 import { Todo } from "../reducers/todos";
+import EditTask from "../containers/TaskEdit";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import {
   Card,
@@ -9,6 +10,7 @@ import {
   Typography,
   Menu,
   MenuItem,
+  Modal,
 } from "@material-ui/core";
 
 import styled from "styled-components";
@@ -23,17 +25,27 @@ const TaskListItem: FC<TaskItemProps> = ({
   TaskDelete = () => undefined,
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const modalOpen = () => {
+    setOpen(true);
+  };
+
+  const modalClose = () => {
+    setOpen(false);
   };
 
   const deleteTask = () => {
     TaskDelete(task);
-    handleClose();
+    menuClose();
+  };
+
+  const menuClose = () => {
+    setAnchorEl(null);
   };
 
   return (
@@ -57,11 +69,19 @@ const TaskListItem: FC<TaskItemProps> = ({
           anchorEl={anchorEl}
           keepMounted
           open={Boolean(anchorEl)}
-          onClose={handleClose}
+          onClose={menuClose}
         >
-          <MenuItem onClick={handleClose}>編集</MenuItem>
+          <MenuItem onClick={modalOpen}>編集</MenuItem>
           <MenuItem onClick={deleteTask}>削除</MenuItem>
         </Menu>
+        <Modal
+          open={open}
+          onClose={modalClose}
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+        >
+          <EditTask task={task} />
+        </Modal>
       </StyledCard>
     </div>
   );

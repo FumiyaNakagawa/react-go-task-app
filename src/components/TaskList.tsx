@@ -8,7 +8,6 @@ interface TaskListProps {
   tasks: Todo[];
 }
 
-// TODO: statusごとにタスク分ける
 const TaskList: FC<TaskListProps> = ({ tasks }) => {
   return (
     <>
@@ -16,15 +15,28 @@ const TaskList: FC<TaskListProps> = ({ tasks }) => {
         <Grid item xs={12}>
           <AddTodo />
         </Grid>
-        {tasks.map((task: Todo) => (
-          <TaskListItem key={task.id} task={task} />
-        ))}
+        {tasks.map((task: Todo) => {
+          if (task.status === "backlog") {
+            return <TaskListItem key={task.id} task={task} />;
+          }
+          return false;
+        })}
       </Grid>
       <Grid item xs={4}>
-        {/* <TaskListItem taskItems={tasks} /> */}
+        {tasks.map((task: Todo) => {
+          if (task.status === "inprogress") {
+            return <TaskListItem key={task.id} task={task} />;
+          }
+          return false;
+        })}
       </Grid>
       <Grid item xs={4}>
-        {/* <TaskListItem taskItems={tasks} /> */}ï
+        {tasks.map((task: Todo) => {
+          if (task.status === "done") {
+            return <TaskListItem key={task.id} task={task} />;
+          }
+          return false;
+        })}
       </Grid>
     </>
   );

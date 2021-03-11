@@ -2,6 +2,7 @@ import { Todo } from "../reducers/todos";
 
 export const TODO_ADD = "TODO_ADD";
 export const TODO_DELETE = "TODO_DELETE";
+export const TODO_EDIT = "TODO_EDIT";
 
 let nextTodoId = 0;
 
@@ -12,6 +13,7 @@ export const addTodo = (task: Todo) => ({
     title: task.title,
     text: task.text,
     date: task.date,
+    status: task.status,
   },
 });
 
@@ -25,6 +27,18 @@ export const deleteTodo = (task: Todo) => ({
   },
 });
 
+export const editTodo = (task: Todo) => ({
+  type: TODO_EDIT as typeof TODO_EDIT,
+  payload: {
+    id: task.id,
+    title: task.title,
+    text: task.text,
+    date: task.date,
+    status: task.status,
+  },
+});
+
 export type TodoAction =
   | ReturnType<typeof addTodo>
-  | ReturnType<typeof deleteTodo>;
+  | ReturnType<typeof deleteTodo>
+  | ReturnType<typeof editTodo>;

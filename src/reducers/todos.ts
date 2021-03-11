@@ -1,22 +1,19 @@
-import { TodoAction, TODO_ADD, TODO_DELETE } from "../actions/index";
+import { TodoAction, TODO_ADD, TODO_DELETE, TODO_EDIT } from "../actions/index";
 
 export interface Todo {
   id?: number;
   title?: string;
   text?: string;
   date?: Date;
+  status?: string;
 }
 
 export interface TodoState {
-  backlog: Todo[];
-  inprogress: Todo[];
-  done: Todo[];
+  task: Todo[];
 }
 
 const initialState: TodoState = {
-  backlog: [],
-  inprogress: [],
-  done: [],
+  task: [],
 };
 
 const todoReducer = (
@@ -27,17 +24,30 @@ const todoReducer = (
     case TODO_ADD:
       return {
         ...state,
-        backlog: [...state.backlog, action.payload],
+        task: [...state.task, action.payload],
       };
     case TODO_DELETE:
-      state.backlog.some(function (v, i) {
-        if (v.id == action.payload.id) state.backlog.splice(i, 1);
+      state.task.map((task) => {
+        console.log(task.status);
+        if (task.id === action.payload.id) {
+          task.status = "delete";
+        }
+        return false;
       });
-
-      console.log(state);
       return {
         ...state,
-        backlog: [...state.backlog],
+        task: [...state.task],
+      };
+    case TODO_EDIT:
+      return {
+        ...state,
+        task: state.task.map((task) => {
+          if (task.id === action.payload.id) {
+            return { ...action.payload };
+          } else {
+            return { ...task };
+          }
+        }),
       };
     default:
       return state;
