@@ -39,17 +39,15 @@ const todoReducer = (
         task: [...state.task],
       };
     case TODO_EDIT:
-      state.task.map((task) => {
-        if (task.id === action.payload.id) {
-          task.title = action.payload.title;
-          task.text = action.payload.text;
-          task.date = action.payload.date;
-        }
-        return false;
-      });
       return {
         ...state,
-        task: [...state.task],
+        task: state.task.map((task) => {
+          if (task.id === action.payload.id) {
+            return { ...action.payload };
+          } else {
+            return { ...task };
+          }
+        }),
       };
     default:
       return state;
