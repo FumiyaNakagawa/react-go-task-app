@@ -52,7 +52,7 @@ const TaskListItem: FC<TaskItemProps> = ({
   };
 
   return (
-    <Draggable key={task.id} draggableId={`${task.id}`} index={index}>
+    <Draggable key={task.id} draggableId={task.id} index={index}>
       {(provided) => (
         <StyledCard
           {...provided.draggableProps}

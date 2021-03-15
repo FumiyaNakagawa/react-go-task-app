@@ -4,6 +4,7 @@ import { Todo } from "../reducers/todos";
 import { TextField, Button } from "@material-ui/core";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { v4 as uuid } from "uuid";
 
 export interface TaskNewProps {
   TaskNew?: (task: Todo) => void;
@@ -17,6 +18,7 @@ const AddTodo: FC<TaskNewProps> = ({ TaskNew = () => undefined }) => {
     console.log(title, text);
 
     const task = {
+      id: uuid(),
       title,
       text,
       date: startDate,

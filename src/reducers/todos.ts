@@ -1,11 +1,11 @@
 import { TodoAction, TODO_ADD, TODO_DELETE, TODO_EDIT } from "../actions/index";
 
 export interface Todo {
-  id?: number;
-  title?: string;
-  text?: string;
-  date?: Date;
-  status?: string;
+  id: string;
+  title: string;
+  text: string;
+  date: Date;
+  status: string;
 }
 
 export interface TodoState {
