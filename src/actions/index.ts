@@ -12,6 +12,7 @@ export const addTodo = (task: Todo) => ({
     text: task.text,
     date: task.date,
     status: task.status,
+    sortIndex: task.sortIndex,
   },
 });
 
@@ -33,6 +34,7 @@ export const editTodo = (task: Todo) => ({
     text: task.text,
     date: task.date,
     status: task.status,
+    sortIndex: task.sortIndex,
   },
 });
 

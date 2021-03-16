@@ -6,6 +6,7 @@ export interface Todo {
   text: string;
   date: Date;
   status: string;
+  sortIndex: number;
 }
 
 export interface TodoState {

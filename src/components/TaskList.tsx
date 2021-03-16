@@ -3,14 +3,29 @@ import TaskListItem from "../containers/TaskListItem";
 import { Todo } from "../reducers/todos";
 import AddTodo from "../containers/AddTodo";
 import Grid from "@material-ui/core/Grid";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 
 interface TaskListProps {
   tasks: Todo[];
 }
 
 const TaskList: FC<TaskListProps> = ({ tasks }) => {
-  const onDragEnd = () => {};
+  const onDragEnd = (result: DropResult) => {
+    const { destination, source, draggableId } = result;
+
+    if (!destination) {
+      return;
+    }
+
+    const dragIds = {
+      droppableIdStart: source.droppableId,
+      droppableIdEnd: destination.droppableId,
+      droppableIndexStart: source.index,
+      droppableIndexEnd: destination.index,
+      draggableId: draggableId,
+    };
+    // dragTask(dragIds);
+  };
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -23,9 +38,13 @@ const TaskList: FC<TaskListProps> = ({ tasks }) => {
             {(provided) => (
               <div ref={provided.innerRef} {...provided.droppableProps}>
                 {tasks.map((task: Todo, index: number) => {
-                  return (
-                    <TaskListItem key={task.id} task={task} index={index} />
-                  );
+                  if (task.status === "backlog") {
+                    return (
+                      <TaskListItem key={task.id} task={task} index={index} />
+                    );
+                  } else {
+                    return false
+                  }
                 })}
                 {provided.placeholder}
               </div>
