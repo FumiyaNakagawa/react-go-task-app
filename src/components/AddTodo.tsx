@@ -7,7 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { v4 as uuid } from "uuid";
 
 export interface TaskNewProps {
-  tasks: Todo[]
+  tasks: Todo[];
   TaskNew?: (task: Todo) => void;
 }
 
@@ -16,14 +16,13 @@ const AddTodo: FC<TaskNewProps> = ({ tasks, TaskNew = () => undefined }) => {
   const [startDate, setStartDate] = useState(new Date());
 
   const onSubmit = handleSubmit(({ title, text }) => {
-
     const task = {
       id: uuid(),
       title,
       text,
       date: startDate,
       status: "backlog",
-      sortIndex: tasks.length
+      sortIndex: tasks.length,
     };
 
     TaskNew(task);

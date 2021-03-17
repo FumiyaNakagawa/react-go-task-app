@@ -1,4 +1,10 @@
-import { TodoAction, TODO_ADD, TODO_DELETE, TODO_EDIT } from "../actions/index";
+import {
+  TodoAction,
+  TODO_ADD,
+  TODO_DELETE,
+  TODO_EDIT,
+  DRAG_TASK,
+} from "../actions/index";
 
 export interface Todo {
   id: string;
@@ -50,6 +56,11 @@ const todoReducer = (
           }
         }),
       };
+    case DRAG_TASK:
+      console.log("------------------------------------------------");
+      console.log(action);
+      console.log("------------------------------------------------");
+      return state;
     default:
       return state;
   }

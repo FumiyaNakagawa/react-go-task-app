@@ -4,12 +4,14 @@ import { Todo } from "../reducers/todos";
 import AddTodo from "../containers/AddTodo";
 import Grid from "@material-ui/core/Grid";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
+import { DragIds } from "../actions";
 
 interface TaskListProps {
   tasks: Todo[];
+  dragTask?: (dragIds: DragIds) => void;
 }
 
-const TaskList: FC<TaskListProps> = ({ tasks }) => {
+const TaskList: FC<TaskListProps> = ({ tasks, dragTask = () => undefined }) => {
   const onDragEnd = (result: DropResult) => {
     const { destination, source, draggableId } = result;
 
@@ -24,7 +26,7 @@ const TaskList: FC<TaskListProps> = ({ tasks }) => {
       droppableIndexEnd: destination.index,
       draggableId: draggableId,
     };
-    // dragTask(dragIds);
+    dragTask(dragIds);
   };
 
   return (
@@ -43,7 +45,7 @@ const TaskList: FC<TaskListProps> = ({ tasks }) => {
                       <TaskListItem key={task.id} task={task} index={index} />
                     );
                   } else {
-                    return false
+                    return false;
                   }
                 })}
                 {provided.placeholder}
