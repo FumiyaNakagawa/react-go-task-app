@@ -1,11 +1,18 @@
-import { TodoAction, TODO_ADD, TODO_DELETE, TODO_EDIT } from "../actions/index";
+import {
+  TodoAction,
+  TODO_ADD,
+  TODO_DELETE,
+  TODO_EDIT,
+  DRAG_TASK,
+} from "../actions/index";
 
 export interface Todo {
-  id?: number;
-  title?: string;
-  text?: string;
-  date?: Date;
-  status?: string;
+  id: string;
+  title: string;
+  text: string;
+  date: Date;
+  status: string;
+  sortIndex: number;
 }
 
 export interface TodoState {
@@ -49,6 +56,36 @@ const todoReducer = (
           }
         }),
       };
+    case DRAG_TASK:
+      const {
+        droppableIdStart,
+        droppableIdEnd,
+        droppableIndexEnd,
+        droppableIndexStart,
+      } = action.payload;
+
+      if (droppableIdStart === droppableIdEnd) {
+        // stateを変更してない時
+        if (droppableIndexStart === droppableIndexEnd) {
+          // タスクの順番を変えてない時
+          return state;
+        } else {
+          // タスクの順番を変えた時
+          let tasks = state.task;
+          let [remove] = tasks.splice(droppableIndexStart, 1);
+          tasks.splice(droppableIndexEnd, 0, remove);
+          return {
+            ...state,
+            task: tasks.map((task, index) => ({
+              ...task,
+              sortIndex: index,
+            })),
+          };
+        }
+      } else {
+        return state;
+      }
+
     default:
       return state;
   }

@@ -22,6 +22,7 @@ const EditTask: FC<TaskItemProps> = ({ task, TaskEdit = () => undefined }) => {
       text,
       date: startDate,
       status: task.status,
+      sortIndex: task.sortIndex,
     };
 
     TaskEdit(editTask);
