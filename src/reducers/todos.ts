@@ -57,10 +57,35 @@ const todoReducer = (
         }),
       };
     case DRAG_TASK:
-      console.log("------------------------------------------------");
-      console.log(action);
-      console.log("------------------------------------------------");
-      return state;
+      const {
+        droppableIdStart,
+        droppableIdEnd,
+        droppableIndexEnd,
+        droppableIndexStart,
+      } = action.payload;
+
+      if (droppableIdStart === droppableIdEnd) {
+        // stateを変更してない時
+        if (droppableIndexStart === droppableIndexEnd) {
+          // タスクの順番を変えてない時
+          return state;
+        } else {
+          // タスクの順番を変えた時
+          let tasks = state.task;
+          let [remove] = tasks.splice(droppableIndexStart, 1);
+          tasks.splice(droppableIndexEnd, 0, remove);
+          return {
+            ...state,
+            task: tasks.map((task, index) => ({
+              ...task,
+              sortIndex: index,
+            })),
+          };
+        }
+      } else {
+        return state;
+      }
+
     default:
       return state;
   }
