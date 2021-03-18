@@ -64,6 +64,13 @@ const todoReducer = (
         droppableIndexStart,
       } = action.payload;
 
+      console.log('====================================')
+      console.log(droppableIdStart)
+      console.log(droppableIdEnd)
+      console.log(droppableIndexEnd)
+      console.log(droppableIndexStart)
+      console.log('====================================')
+
       if (droppableIdStart === droppableIdEnd) {
         // stateを変更してない時
         if (droppableIndexStart === droppableIndexEnd) {
