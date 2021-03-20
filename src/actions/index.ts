@@ -32,6 +32,7 @@ export const deleteTodo = (task: Todo) => ({
     title: task.title,
     text: task.text,
     date: task.date,
+    status: task.status,
   },
 });
 

@@ -10,7 +10,11 @@ interface DispatchProps {
 }
 
 const mapStateToProps = (state: rootState) => ({
-  tasks: state.todoReducer.task,
+  taskList: {
+    backlog: state.todoReducer.taskList.backlog,
+    inprogress: state.todoReducer.taskList.inprogress,
+    done: state.todoReducer.taskList.done,
+  },
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
