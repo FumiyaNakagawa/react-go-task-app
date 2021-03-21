@@ -37,6 +37,9 @@ const TaskList: FC<TaskListProps> = ({ tasks, dragTask = () => undefined }) => {
         return (
           <Grid item xs={4}>
             <Grid item xs={12}>
+              <p>{status}</p>
+            </Grid>
+            <Grid item xs={12}>
               <Droppable droppableId={status}>
                 {(provided) => (
                   <StyledTaskList
@@ -69,6 +72,7 @@ const StyledTaskList = styled.div`
   border: 1px solid lightgrey;
   border-radius: 2px;
   height: 70vh;
+  overflow: scroll;
 `;
 
 export default TaskList;
