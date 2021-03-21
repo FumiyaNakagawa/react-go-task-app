@@ -1,3 +1,4 @@
+import { isConstructorDeclaration } from "typescript";
 import {
   TodoAction,
   TODO_ADD,
@@ -16,13 +17,16 @@ export interface Todo {
   sortIndex: number;
 }
 
+export interface TaskListObject {
+  backlog: Todo[];
+  inprogress: Todo[];
+  done: Todo[];
+}
+
+type TaskListKey = keyof TaskListObject
+
 export interface TodoState {
-  taskList: {
-    backlog: Todo[];
-    inprogress: Todo[];
-    done: Todo[];
-    delete: Todo[];
-  };
+  taskList: TaskListObject;
 }
 
 const initialState: TodoState = {
@@ -30,7 +34,6 @@ const initialState: TodoState = {
     backlog: [],
     inprogress: [],
     done: [],
-    delete: [],
   },
 };
 
@@ -47,36 +50,26 @@ const todoReducer = (
           backlog: [...state.taskList.backlog, action.payload],
         },
       };
-    // case TODO_DELETE:
-    //   const status = action.payload.status
-    //   console.log(status)
-    //   if (status === 'backlog') {
-    //     state.taskList.backlog.map((task) => {
-    //       return {
-    //         ...state,
-    //         if (task.id === action.payload.id) {
-    //           task.status = 'delete';
-    //         }
-    //       };
-    //     })
-    //   } else if (status === 'inprogress') {
+    case TODO_DELETE:
+      const status = action.payload.status as TaskListKey;
+      const taskList = Object.assign({}, state.taskList)
 
-    //   } else if (status === 'done') {
+      taskList[status].splice(action.payload.sortIndex, 1);
+      taskList[status] = taskList[status].map((task, index) => {
+        return {
+          ...task,
+          sortIndex: index,
+        }
+      });
 
-    //   }
-      
+      return {
+        ...state,
+        taskList: {
+          ...taskList,
+        }
+      }
 
-      // state.taskList.map((task) => {
-      //   console.log(task.status);
-      //   if (task.id === action.payload.id) {
-      //     task.status = "delete";
-      //   }
-      //   return false;
-      // });
-      // return {
-      //   ...state,
-      //   taskList: {...state.taskList},
-      // };
+
     // case TODO_EDIT:
     //   return {
     //     ...state,
