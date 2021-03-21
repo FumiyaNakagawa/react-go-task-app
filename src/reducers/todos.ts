@@ -15,12 +15,24 @@ export interface Todo {
   sortIndex: number;
 }
 
+export interface TaskListObject {
+  backlog: Todo[];
+  inprogress: Todo[];
+  done: Todo[];
+}
+
+export type TaskListKey = keyof TaskListObject;
+
 export interface TodoState {
-  task: Todo[];
+  taskList: TaskListObject;
 }
 
 const initialState: TodoState = {
-  task: [],
+  taskList: {
+    backlog: [],
+    inprogress: [],
+    done: [],
+  },
 };
 
 const todoReducer = (
@@ -31,60 +43,88 @@ const todoReducer = (
     case TODO_ADD:
       return {
         ...state,
-        task: [...state.task, action.payload],
+        taskList: {
+          ...state.taskList,
+          backlog: [...state.taskList.backlog, action.payload],
+        },
       };
     case TODO_DELETE:
-      state.task.map((task) => {
-        console.log(task.status);
-        if (task.id === action.payload.id) {
-          task.status = "delete";
-        }
-        return false;
-      });
-      return {
-        ...state,
-        task: [...state.task],
-      };
-    case TODO_EDIT:
-      return {
-        ...state,
-        task: state.task.map((task) => {
-          if (task.id === action.payload.id) {
-            return { ...action.payload };
-          } else {
-            return { ...task };
-          }
-        }),
-      };
-    case DRAG_TASK:
-      const {
-        droppableIdStart,
-        droppableIdEnd,
-        droppableIndexEnd,
-        droppableIndexStart,
-      } = action.payload;
+      const status = action.payload.status as TaskListKey;
+      const taskList = Object.assign({}, state.taskList);
 
-      if (droppableIdStart === droppableIdEnd) {
-        // stateを変更してない時
-        if (droppableIndexStart === droppableIndexEnd) {
-          // タスクの順番を変えてない時
-          return state;
+      taskList[status].splice(action.payload.sortIndex, 1);
+      taskList[status] = taskList[status].map((task, index) => {
+        return {
+          ...task,
+          sortIndex: index,
+        };
+      });
+
+      return {
+        ...state,
+        taskList: {
+          ...taskList,
+        },
+      };
+
+    case TODO_EDIT:
+      const editStatus = action.payload.status as TaskListKey;
+      const editTaskList = Object.assign({}, state.taskList);
+
+      editTaskList[editStatus] = editTaskList[editStatus].map((task) => {
+        if (task.id === action.payload.id) {
+          return { ...action.payload };
         } else {
-          // タスクの順番を変えた時
-          let tasks = state.task;
-          let [remove] = tasks.splice(droppableIndexStart, 1);
-          tasks.splice(droppableIndexEnd, 0, remove);
+          return { ...task };
+        }
+      });
+
+      return {
+        ...state,
+        taskList: {
+          ...editTaskList,
+        },
+      };
+
+    case DRAG_TASK:
+      const dragTaskList = Object.assign({}, state.taskList);
+      const droppableIdStart = action.payload.droppableIdStart as TaskListKey;
+      const droppableIdEnd = action.payload.droppableIdEnd as TaskListKey;
+      const { droppableIndexEnd, droppableIndexStart } = action.payload;
+
+      let [remove] = dragTaskList[droppableIdStart].splice(
+        droppableIndexStart,
+        1
+      );
+      dragTaskList[droppableIdEnd].splice(droppableIndexEnd, 0, remove);
+
+      dragTaskList[droppableIdStart] = dragTaskList[droppableIdStart].map(
+        (task, index) => {
           return {
-            ...state,
-            task: tasks.map((task, index) => ({
-              ...task,
-              sortIndex: index,
-            })),
+            ...task,
+            sortIndex: index,
           };
         }
-      } else {
-        return state;
+      );
+
+      if (droppableIdStart !== droppableIdEnd) {
+        dragTaskList[droppableIdEnd] = dragTaskList[droppableIdEnd].map(
+          (task, index) => {
+            return {
+              ...task,
+              status: droppableIdEnd,
+              sortIndex: index,
+            };
+          }
+        );
       }
+
+      return {
+        ...state,
+        taskList: {
+          ...dragTaskList,
+        },
+      };
 
     default:
       return state;

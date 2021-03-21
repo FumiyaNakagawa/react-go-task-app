@@ -9,7 +9,7 @@ interface DispatchProps {
 }
 
 const mapStateToProps = (state: rootState) => ({
-  tasks: state.todoReducer.task,
+  tasks: state.todoReducer.taskList,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
