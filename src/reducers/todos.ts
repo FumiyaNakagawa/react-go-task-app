@@ -23,7 +23,7 @@ export interface TaskListObject {
   done: Todo[];
 }
 
-type TaskListKey = keyof TaskListObject
+type TaskListKey = keyof TaskListObject;
 
 export interface TodoState {
   taskList: TaskListObject;
@@ -52,35 +52,42 @@ const todoReducer = (
       };
     case TODO_DELETE:
       const status = action.payload.status as TaskListKey;
-      const taskList = Object.assign({}, state.taskList)
+      const taskList = Object.assign({}, state.taskList);
 
       taskList[status].splice(action.payload.sortIndex, 1);
       taskList[status] = taskList[status].map((task, index) => {
         return {
           ...task,
           sortIndex: index,
-        }
+        };
       });
 
       return {
         ...state,
         taskList: {
           ...taskList,
+        },
+      };
+
+    case TODO_EDIT:
+      const editStatus = action.payload.status as TaskListKey;
+      const editTaskList = Object.assign({}, state.taskList);
+
+      editTaskList[editStatus] = editTaskList[editStatus].map((task) => {
+        if (task.id === action.payload.id) {
+          return { ...action.payload };
+        } else {
+          return { ...task };
         }
-      }
+      });
 
+      return {
+        ...state,
+        taskList: {
+          ...editTaskList,
+        },
+      };
 
-    // case TODO_EDIT:
-    //   return {
-    //     ...state,
-    //     task: state.task.map((task) => {
-    //       if (task.id === action.payload.id) {
-    //         return { ...action.payload };
-    //       } else {
-    //         return { ...task };
-    //       }
-    //     }),
-    //   };
     // case DRAG_TASK:
     //   const {
     //     droppableIdStart,

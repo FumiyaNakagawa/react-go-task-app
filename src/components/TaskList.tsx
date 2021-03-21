@@ -39,7 +39,10 @@ const TaskList: FC<TaskListProps> = ({ tasks, dragTask = () => undefined }) => {
         <Grid item xs={12}>
           <Droppable droppableId="backlog">
             {(provided) => (
-              <StyledTaskList ref={provided.innerRef} {...provided.droppableProps}>
+              <StyledTaskList
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+              >
                 {tasks.map((task: Todo, index: number) => {
                   if (task.status === "backlog") {
                     return (
@@ -58,7 +61,10 @@ const TaskList: FC<TaskListProps> = ({ tasks, dragTask = () => undefined }) => {
       <Grid item xs={4}>
         <Droppable droppableId="inprogress">
           {(provided) => (
-            <StyledTaskList ref={provided.innerRef} {...provided.droppableProps}>
+            <StyledTaskList
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
               {tasks.map((task: Todo, index: number) => {
                 if (task.status === "inprogress") {
                   return (
@@ -76,7 +82,10 @@ const TaskList: FC<TaskListProps> = ({ tasks, dragTask = () => undefined }) => {
       <Grid item xs={4}>
         <Droppable droppableId="done">
           {(provided) => (
-            <StyledTaskList ref={provided.innerRef} {...provided.droppableProps}>
+            <StyledTaskList
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
               {tasks.map((task: Todo, index: number) => {
                 if (task.status === "done") {
                   return (
