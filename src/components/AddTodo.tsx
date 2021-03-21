@@ -5,6 +5,7 @@ import { TextField, Button } from "@material-ui/core";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { v4 as uuid } from "uuid";
+import Grid from "@material-ui/core/Grid";
 
 export interface TaskNewProps {
   taskList: any;
@@ -29,28 +30,30 @@ const AddTodo: FC<TaskNewProps> = ({ taskList, TaskNew = () => undefined }) => {
   });
 
   return (
-    <form onSubmit={onSubmit}>
-      <TextField
-        id="outlined-basic"
-        label="タイトルを入力"
-        variant="outlined"
-        name="title"
-        defaultValue="test"
-        inputRef={register}
-      />
-      <TextField name="text" inputRef={register({ required: true })} />
+    <Grid item xs={12}>
+      <form onSubmit={onSubmit}>
+        <TextField
+          id="outlined-basic"
+          label="タイトルを入力"
+          variant="outlined"
+          name="title"
+          defaultValue="test"
+          inputRef={register}
+        />
+        <TextField name="text" inputRef={register({ required: true })} />
 
-      <DatePicker
-        selected={startDate}
-        onChange={(date: Date) => {
-          setStartDate(date);
-        }}
-      />
+        <DatePicker
+          selected={startDate}
+          onChange={(date: Date) => {
+            setStartDate(date);
+          }}
+        />
 
-      <Button type="submit" variant="contained" color="secondary">
-        追加する
-      </Button>
-    </form>
+        <Button type="submit" variant="contained" color="secondary">
+          追加する
+        </Button>
+      </form>
+    </Grid>
   );
 };
 

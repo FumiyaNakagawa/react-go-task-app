@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import TaskListItem from "../containers/TaskListItem";
 import { TaskListObject, TaskListKey } from "../reducers/todos";
-import AddTodo from "../containers/AddTodo";
 import Grid from "@material-ui/core/Grid";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import { DragIds } from "../actions";
@@ -61,11 +60,6 @@ const TaskList: FC<TaskListProps> = ({ tasks, dragTask = () => undefined }) => {
           </Grid>
         );
       })}
-      <Grid item xs={4}>
-        <Grid item xs={12}>
-          <AddTodo />
-        </Grid>
-      </Grid>
     </DragDropContext>
   );
 };
