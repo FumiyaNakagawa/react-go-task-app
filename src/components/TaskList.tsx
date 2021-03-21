@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import TaskListItem from "../containers/TaskListItem";
-import { Todo } from "../reducers/todos";
+import { TaskListObject, TaskListKey } from "../reducers/todos";
 import AddTodo from "../containers/AddTodo";
 import Grid from "@material-ui/core/Grid";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
@@ -8,11 +8,12 @@ import { DragIds } from "../actions";
 import styled from "styled-components";
 
 interface TaskListProps {
-  tasks: Todo[];
+  tasks: TaskListObject;
   dragTask?: (dragIds: DragIds) => void;
 }
 
 const TaskList: FC<TaskListProps> = ({ tasks, dragTask = () => undefined }) => {
+  const taskListKeys = Object.keys(tasks);
   const onDragEnd = (result: DropResult) => {
     const { destination, source, draggableId } = result;
 
@@ -32,73 +33,38 @@ const TaskList: FC<TaskListProps> = ({ tasks, dragTask = () => undefined }) => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
+      {taskListKeys.map((val) => {
+        let status = val as TaskListKey;
+        return (
+          <Grid item xs={4}>
+            <Grid item xs={12}>
+              <Droppable droppableId={status}>
+                {(provided) => (
+                  <StyledTaskList
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                  >
+                    {tasks[status].map((task) => {
+                      return (
+                        <TaskListItem
+                          key={task.id}
+                          task={task}
+                          index={task.sortIndex}
+                        />
+                      );
+                    })}
+                    {provided.placeholder}
+                  </StyledTaskList>
+                )}
+              </Droppable>
+            </Grid>
+          </Grid>
+        );
+      })}
       <Grid item xs={4}>
         <Grid item xs={12}>
           <AddTodo />
         </Grid>
-        <Grid item xs={12}>
-          <Droppable droppableId="backlog">
-            {(provided) => (
-              <StyledTaskList
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-              >
-                {tasks.map((task: Todo, index: number) => {
-                  if (task.status === "backlog") {
-                    return (
-                      <TaskListItem key={task.id} task={task} index={index} />
-                    );
-                  } else {
-                    return false;
-                  }
-                })}
-                {provided.placeholder}
-              </StyledTaskList>
-            )}
-          </Droppable>
-        </Grid>
-      </Grid>
-      <Grid item xs={4}>
-        <Droppable droppableId="inprogress">
-          {(provided) => (
-            <StyledTaskList
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
-              {tasks.map((task: Todo, index: number) => {
-                if (task.status === "inprogress") {
-                  return (
-                    <TaskListItem key={task.id} task={task} index={index} />
-                  );
-                } else {
-                  return false;
-                }
-              })}
-              {provided.placeholder}
-            </StyledTaskList>
-          )}
-        </Droppable>
-      </Grid>
-      <Grid item xs={4}>
-        <Droppable droppableId="done">
-          {(provided) => (
-            <StyledTaskList
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
-              {tasks.map((task: Todo, index: number) => {
-                if (task.status === "done") {
-                  return (
-                    <TaskListItem key={task.id} task={task} index={index} />
-                  );
-                } else {
-                  return false;
-                }
-              })}
-              {provided.placeholder}
-            </StyledTaskList>
-          )}
-        </Droppable>
       </Grid>
     </DragDropContext>
   );

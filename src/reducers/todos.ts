@@ -1,4 +1,3 @@
-import { isConstructorDeclaration } from "typescript";
 import {
   TodoAction,
   TODO_ADD,
@@ -6,7 +5,6 @@ import {
   TODO_EDIT,
   DRAG_TASK,
 } from "../actions/index";
-import TaskList from "../containers/TaskList";
 
 export interface Todo {
   id: string;
@@ -23,7 +21,7 @@ export interface TaskListObject {
   done: Todo[];
 }
 
-type TaskListKey = keyof TaskListObject;
+export type TaskListKey = keyof TaskListObject;
 
 export interface TodoState {
   taskList: TaskListObject;
@@ -114,6 +112,7 @@ const todoReducer = (
           (task, index) => {
             return {
               ...task,
+              status: droppableIdEnd,
               sortIndex: index,
             };
           }
