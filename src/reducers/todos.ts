@@ -88,42 +88,44 @@ const todoReducer = (
         },
       };
 
-    // case DRAG_TASK:
-    //   const {
-    //     droppableIdStart,
-    //     droppableIdEnd,
-    //     droppableIndexEnd,
-    //     droppableIndexStart,
-    //   } = action.payload;
+    case DRAG_TASK:
+      const dragTaskList = Object.assign({}, state.taskList);
+      const droppableIdStart = action.payload.droppableIdStart as TaskListKey;
+      const droppableIdEnd = action.payload.droppableIdEnd as TaskListKey;
+      const { droppableIndexEnd, droppableIndexStart } = action.payload;
 
-    //   console.log("====================================");
-    //   console.log(droppableIdStart);
-    //   console.log(droppableIdEnd);
-    //   console.log(droppableIndexEnd);
-    //   console.log(droppableIndexStart);
-    //   console.log("====================================");
+      let [remove] = dragTaskList[droppableIdStart].splice(
+        droppableIndexStart,
+        1
+      );
+      dragTaskList[droppableIdEnd].splice(droppableIndexEnd, 0, remove);
 
-    //   if (droppableIdStart === droppableIdEnd) {
-    //     // stateを変更してない時
-    //     if (droppableIndexStart === droppableIndexEnd) {
-    //       // タスクの順番を変えてない時
-    //       return state;
-    //     } else {
-    //       // タスクの順番を変えた時
-    //       let tasks = state.task;
-    //       let [remove] = tasks.splice(droppableIndexStart, 1);
-    //       tasks.splice(droppableIndexEnd, 0, remove);
-    //       return {
-    //         ...state,
-    //         task: tasks.map((task, index) => ({
-    //           ...task,
-    //           sortIndex: index,
-    //         })),
-    //       };
-    //     }
-    //   } else {
-    //     return state;
-    //   }
+      dragTaskList[droppableIdStart] = dragTaskList[droppableIdStart].map(
+        (task, index) => {
+          return {
+            ...task,
+            sortIndex: index,
+          };
+        }
+      );
+
+      if (droppableIdStart !== droppableIdEnd) {
+        dragTaskList[droppableIdEnd] = dragTaskList[droppableIdEnd].map(
+          (task, index) => {
+            return {
+              ...task,
+              sortIndex: index,
+            };
+          }
+        );
+      }
+
+      return {
+        ...state,
+        taskList: {
+          ...dragTaskList,
+        },
+      };
 
     default:
       return state;
