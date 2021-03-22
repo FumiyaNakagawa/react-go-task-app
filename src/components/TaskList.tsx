@@ -4,6 +4,7 @@ import { TaskListObject, TaskListKey } from "../reducers/todos";
 import Grid from "@material-ui/core/Grid";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import { DragIds } from "../actions";
+import AddTodo from "../containers/AddTodo";
 import styled from "styled-components";
 
 interface TaskListProps {
@@ -34,11 +35,9 @@ const TaskList: FC<TaskListProps> = ({ tasks, dragTask = () => undefined }) => {
     <DragDropContext onDragEnd={onDragEnd}>
       {taskListKeys.map((val) => {
         let status = val as TaskListKey;
+        let backlog = status === 'backlog';
         return (
           <Grid item xs={4}>
-            <Grid item xs={12}>
-              <p>{status}</p>
-            </Grid>
             <Grid item xs={12}>
               <Droppable droppableId={status}>
                 {(provided) => (
@@ -46,6 +45,11 @@ const TaskList: FC<TaskListProps> = ({ tasks, dragTask = () => undefined }) => {
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                   >
+                    <Grid item xs={12}>
+                      <p>{status}</p>
+                      { backlog && <AddTodo /> }
+                    </Grid>
+                    
                     {tasks[status].map((task) => {
                       return (
                         <TaskListItem

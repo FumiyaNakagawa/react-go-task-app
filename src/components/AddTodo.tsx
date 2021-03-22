@@ -6,6 +6,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { v4 as uuid } from "uuid";
 import Grid from "@material-ui/core/Grid";
+import styled from "styled-components";
 
 export interface TaskNewProps {
   taskList: any;
@@ -30,31 +31,64 @@ const AddTodo: FC<TaskNewProps> = ({ taskList, TaskNew = () => undefined }) => {
   });
 
   return (
-    <Grid item xs={12}>
+    <StyleGrid item xs={12}>
       <form onSubmit={onSubmit}>
-        <TextField
-          id="outlined-basic"
-          label="タイトルを入力"
-          variant="outlined"
-          name="title"
-          defaultValue="test"
-          inputRef={register}
-        />
-        <TextField name="text" inputRef={register({ required: true })} />
+        <Grid item xs={12}>
+          <StyledTextField
+            label="title"
+            variant="outlined"
+            name="title"
+            inputRef={register({ required: true })}
+          />
+          <StyledTextField
+            label="description"
+            variant="outlined"
+            name="text"
+            inputRef={register({ required: true })}
+          />
+        </Grid>
 
-        <DatePicker
-          selected={startDate}
-          onChange={(date: Date) => {
-            setStartDate(date);
-          }}
-        />
-
-        <Button type="submit" variant="contained" color="secondary">
-          追加する
-        </Button>
+        <StyledDatePicker item xs={12}>
+          <DatePicker
+            selected={startDate}
+            onChange={(date: Date) => {
+              setStartDate(date);
+            }}
+          />
+        </StyledDatePicker>
+        <Grid item xs={12}>
+          <StyledButton type="submit" variant="contained" color="secondary">
+            追加する
+          </StyledButton>
+        </Grid>
       </form>
-    </Grid>
+    </StyleGrid>
   );
 };
+
+const StyledTextField = styled(TextField)`
+  width: 100%;
+  margin-bottom: 5px;
+`;
+
+const StyledButton = styled(Button)`
+  width: 100%;
+  margin-bottom: 5px;
+`;
+
+const StyledDatePicker = styled(Grid)`
+  margin-bottom: 5px;
+  .react-datepicker-wrapper {
+    width: 100%;
+  }
+  input {
+    width: 100%;
+    padding: 18.5px 14px;
+  }
+`;
+
+const StyleGrid = styled(Grid)`
+  padding: 15px;
+`;
 
 export default AddTodo;
