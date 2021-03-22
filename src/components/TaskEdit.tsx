@@ -3,8 +3,12 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { Todo } from "../reducers/todos";
 import { TextField, Button } from "@material-ui/core";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import "date-fns";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
 
 interface TaskItemProps {
   task: Todo;
@@ -13,7 +17,11 @@ interface TaskItemProps {
 
 const EditTask: FC<TaskItemProps> = ({ task, TaskEdit = () => undefined }) => {
   const { register, handleSubmit } = useForm<Todo>();
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState<Date | null>(new Date());
+
+  const handleDateChange = (date: Date | null) => {
+    setStartDate(date);
+  };
 
   const onSubmit = handleSubmit(({ title, text }) => {
     const editTask = {
@@ -45,12 +53,18 @@ const EditTask: FC<TaskItemProps> = ({ task, TaskEdit = () => undefined }) => {
           inputRef={register({ required: true })}
         />
 
-        <DatePicker
-          selected={task.date}
-          onChange={(date: Date) => {
-            setStartDate(date);
-          }}
-        />
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <KeyboardDatePicker
+            disableToolbar
+            variant="inline"
+            format="MM/dd/yyyy"
+            margin="normal"
+            id="date-picker-inline"
+            label="Date picker inline"
+            value={startDate}
+            onChange={handleDateChange}
+          />
+        </MuiPickersUtilsProvider>
 
         <Button type="submit" variant="contained" color="secondary">
           編集する

@@ -2,11 +2,16 @@ import React, { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Todo } from "../reducers/todos";
 import { TextField, Button } from "@material-ui/core";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import { v4 as uuid } from "uuid";
 import Grid from "@material-ui/core/Grid";
 import styled from "styled-components";
+
+import "date-fns";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
 
 export interface TaskNewProps {
   taskList: any;
@@ -15,7 +20,10 @@ export interface TaskNewProps {
 
 const AddTodo: FC<TaskNewProps> = ({ taskList, TaskNew = () => undefined }) => {
   const { register, handleSubmit } = useForm<Todo>();
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState<Date | null>(new Date());
+  const handleDateChange = (date: Date | null) => {
+    setStartDate(date);
+  };
 
   const onSubmit = handleSubmit(({ title, text }) => {
     const task = {
@@ -48,14 +56,20 @@ const AddTodo: FC<TaskNewProps> = ({ taskList, TaskNew = () => undefined }) => {
           />
         </Grid>
 
-        <StyledDatePicker item xs={12}>
-          <DatePicker
-            selected={startDate}
-            onChange={(date: Date) => {
-              setStartDate(date);
-            }}
-          />
-        </StyledDatePicker>
+        <Grid item xs={12}>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <StyledDatePicker
+              disableToolbar
+              variant="inline"
+              format="MM/dd/yyyy"
+              margin="normal"
+              id="date-picker-inline"
+              label="Date picker inline"
+              value={startDate}
+              onChange={handleDateChange}
+            />
+          </MuiPickersUtilsProvider>
+        </Grid>
         <Grid item xs={12}>
           <StyledButton type="submit" variant="contained" color="secondary">
             追加する
@@ -76,15 +90,8 @@ const StyledButton = styled(Button)`
   margin-bottom: 5px;
 `;
 
-const StyledDatePicker = styled(Grid)`
-  margin-bottom: 5px;
-  .react-datepicker-wrapper {
-    width: 100%;
-  }
-  input {
-    width: 100%;
-    padding: 18.5px 14px;
-  }
+const StyledDatePicker = styled(KeyboardDatePicker)`
+  width: 100%;
 `;
 
 const StyleGrid = styled(Grid)`

@@ -35,7 +35,7 @@ const TaskList: FC<TaskListProps> = ({ tasks, dragTask = () => undefined }) => {
     <DragDropContext onDragEnd={onDragEnd}>
       {taskListKeys.map((val) => {
         let status = val as TaskListKey;
-        let backlog = status === 'backlog';
+        let backlog = status === "backlog";
         return (
           <Grid item xs={4}>
             <Grid item xs={12}>
@@ -47,9 +47,9 @@ const TaskList: FC<TaskListProps> = ({ tasks, dragTask = () => undefined }) => {
                   >
                     <Grid item xs={12}>
                       <p>{status}</p>
-                      { backlog && <AddTodo /> }
+                      {backlog && <AddTodo />}
                     </Grid>
-                    
+
                     {tasks[status].map((task) => {
                       return (
                         <TaskListItem
