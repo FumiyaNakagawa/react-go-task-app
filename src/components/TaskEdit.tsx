@@ -2,7 +2,7 @@ import React, { FC, useState } from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { Todo } from "../reducers/todos";
-import { TextField, Button } from "@material-ui/core";
+import { TextField, Button, Grid } from "@material-ui/core";
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -39,36 +39,38 @@ const EditTask: FC<TaskItemProps> = ({ task, TaskEdit = () => undefined }) => {
   return (
     <StyledModal>
       <form onSubmit={onSubmit}>
-        <TextField
-          id="outlined-basic"
-          label="タイトルを入力"
-          variant="outlined"
-          name="title"
-          defaultValue={task.title}
-          inputRef={register}
-        />
-        <TextField
-          name="text"
-          defaultValue={task.text}
-          inputRef={register({ required: true })}
-        />
-
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <KeyboardDatePicker
-            disableToolbar
-            variant="inline"
-            format="MM/dd/yyyy"
-            margin="normal"
-            id="date-picker-inline"
-            label="Date picker inline"
-            value={startDate}
-            onChange={handleDateChange}
+        <StyleGrid item xs={12}>
+          <StyledTextField
+            label="title"
+            variant="outlined"
+            name="title"
+            defaultValue={task.title}
+            inputRef={register({ required: true })}
           />
-        </MuiPickersUtilsProvider>
+          <StyledTextField
+            label="description"
+            variant="outlined"
+            name="text"
+            defaultValue={task.text}
+            inputRef={register({ required: true })}
+          />
 
-        <Button type="submit" variant="contained" color="secondary">
-          編集する
-        </Button>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <StyledDatePicker
+              disableToolbar
+              variant="inline"
+              format="MM/dd/yyyy"
+              margin="normal"
+              id="date-picker-inline"
+              label="Date picker inline"
+              value={startDate}
+              onChange={handleDateChange}
+            />
+          </MuiPickersUtilsProvider>
+          <StyledButton type="submit" variant="contained" color="secondary">
+            編集する
+          </StyledButton>
+        </StyleGrid>
       </form>
     </StyledModal>
   );
@@ -79,9 +81,28 @@ const StyledModal = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   position: absolute;
-  width: 360px;
+  width: 450px;
   background-color: #fff;
-  border-radius: 3px;
+  border-radius: 5px;
+`;
+
+const StyledTextField = styled(TextField)`
+  width: 100%;
+  margin-bottom: 10px;
+`;
+
+const StyledDatePicker = styled(KeyboardDatePicker)`
+  width: 100%;
+  margin-bottom: 10px;
+`;
+
+const StyledButton = styled(Button)`
+  width: 100%;
+  margin-bottom: 10px;
+`;
+
+const StyleGrid = styled(Grid)`
+  padding: 20px;
 `;
 
 export default EditTask;

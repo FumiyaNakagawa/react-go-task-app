@@ -75,7 +75,7 @@ const StyledTaskList = styled.div`
   margin: 8px;
   border: 1px solid lightgrey;
   border-radius: 2px;
-  height: 70vh;
+  height: 80vh;
   overflow: scroll;
 `;
 
