@@ -12,10 +12,17 @@ import {
 
 interface TaskItemProps {
   task: Todo;
+  modalClose: any;
+  menuClose: any;
   TaskEdit: (task: Todo) => void;
 }
 
-const EditTask: FC<TaskItemProps> = ({ task, TaskEdit = () => undefined }) => {
+const EditTask: FC<TaskItemProps> = ({
+  task,
+  modalClose,
+  menuClose,
+  TaskEdit = () => undefined,
+}) => {
   const { register, handleSubmit } = useForm<Todo>();
   const [startDate, setStartDate] = useState<Date | null>(new Date());
 
@@ -32,7 +39,8 @@ const EditTask: FC<TaskItemProps> = ({ task, TaskEdit = () => undefined }) => {
       status: task.status,
       sortIndex: task.sortIndex,
     };
-
+    modalClose();
+    menuClose();
     TaskEdit(editTask);
   });
 
