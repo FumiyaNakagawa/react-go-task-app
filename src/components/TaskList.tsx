@@ -1,10 +1,10 @@
 import React, { FC } from "react";
 import TaskListItem from "../containers/TaskListItem";
 import { TaskListObject, TaskListKey } from "../reducers/todos";
-import AddTodo from "../containers/AddTodo";
 import Grid from "@material-ui/core/Grid";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import { DragIds } from "../actions";
+import AddTodo from "../containers/AddTodo";
 import styled from "styled-components";
 
 interface TaskListProps {
@@ -35,6 +35,7 @@ const TaskList: FC<TaskListProps> = ({ tasks, dragTask = () => undefined }) => {
     <DragDropContext onDragEnd={onDragEnd}>
       {taskListKeys.map((val) => {
         let status = val as TaskListKey;
+        let backlog = status === "backlog";
         return (
           <Grid item xs={4}>
             <Grid item xs={12}>
@@ -44,6 +45,11 @@ const TaskList: FC<TaskListProps> = ({ tasks, dragTask = () => undefined }) => {
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                   >
+                    <Grid item xs={12}>
+                      <p>{status}</p>
+                      {backlog && <AddTodo />}
+                    </Grid>
+
                     {tasks[status].map((task) => {
                       return (
                         <TaskListItem
@@ -61,11 +67,6 @@ const TaskList: FC<TaskListProps> = ({ tasks, dragTask = () => undefined }) => {
           </Grid>
         );
       })}
-      <Grid item xs={4}>
-        <Grid item xs={12}>
-          <AddTodo />
-        </Grid>
-      </Grid>
     </DragDropContext>
   );
 };
@@ -74,7 +75,8 @@ const StyledTaskList = styled.div`
   margin: 8px;
   border: 1px solid lightgrey;
   border-radius: 2px;
-  height: 70vh;
+  height: 80vh;
+  overflow: scroll;
 `;
 
 export default TaskList;

@@ -88,7 +88,11 @@ const TaskListItem: FC<TaskItemProps> = ({
             aria-labelledby="simple-modal-title"
             aria-describedby="simple-modal-description"
           >
-            <EditTask task={task} />
+            <EditTask
+              task={task}
+              modalClose={modalClose}
+              menuClose={menuClose}
+            />
           </Modal>
         </StyledCard>
       )}

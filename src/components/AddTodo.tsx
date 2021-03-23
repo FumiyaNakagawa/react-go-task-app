@@ -2,9 +2,16 @@ import React, { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Todo } from "../reducers/todos";
 import { TextField, Button } from "@material-ui/core";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import { v4 as uuid } from "uuid";
+import Grid from "@material-ui/core/Grid";
+import styled from "styled-components";
+
+import "date-fns";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
 
 export interface TaskNewProps {
   taskList: any;
@@ -13,7 +20,10 @@ export interface TaskNewProps {
 
 const AddTodo: FC<TaskNewProps> = ({ taskList, TaskNew = () => undefined }) => {
   const { register, handleSubmit } = useForm<Todo>();
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState<Date | null>(new Date());
+  const handleDateChange = (date: Date | null) => {
+    setStartDate(date);
+  };
 
   const onSubmit = handleSubmit(({ title, text }) => {
     const task = {
@@ -29,29 +39,63 @@ const AddTodo: FC<TaskNewProps> = ({ taskList, TaskNew = () => undefined }) => {
   });
 
   return (
-    <form onSubmit={onSubmit}>
-      <TextField
-        id="outlined-basic"
-        label="タイトルを入力"
-        variant="outlined"
-        name="title"
-        defaultValue="test"
-        inputRef={register}
-      />
-      <TextField name="text" inputRef={register({ required: true })} />
+    <StyleGrid item xs={12}>
+      <form onSubmit={onSubmit}>
+        <Grid item xs={12}>
+          <StyledTextField
+            label="title"
+            variant="outlined"
+            name="title"
+            inputRef={register({ required: true })}
+          />
+          <StyledTextField
+            label="description"
+            variant="outlined"
+            name="text"
+            inputRef={register({ required: true })}
+          />
+        </Grid>
 
-      <DatePicker
-        selected={startDate}
-        onChange={(date: Date) => {
-          setStartDate(date);
-        }}
-      />
-
-      <Button type="submit" variant="contained" color="secondary">
-        追加する
-      </Button>
-    </form>
+        <Grid item xs={12}>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <StyledDatePicker
+              disableToolbar
+              variant="inline"
+              format="MM/dd/yyyy"
+              margin="normal"
+              id="date-picker-inline"
+              label="Date picker inline"
+              value={startDate}
+              onChange={handleDateChange}
+            />
+          </MuiPickersUtilsProvider>
+        </Grid>
+        <Grid item xs={12}>
+          <StyledButton type="submit" variant="contained" color="secondary">
+            追加する
+          </StyledButton>
+        </Grid>
+      </form>
+    </StyleGrid>
   );
 };
+
+const StyledTextField = styled(TextField)`
+  width: 100%;
+  margin-bottom: 5px;
+`;
+
+const StyledButton = styled(Button)`
+  width: 100%;
+  margin-bottom: 5px;
+`;
+
+const StyledDatePicker = styled(KeyboardDatePicker)`
+  width: 100%;
+`;
+
+const StyleGrid = styled(Grid)`
+  padding: 15px;
+`;
 
 export default AddTodo;

@@ -10,7 +10,7 @@ export interface Todo {
   id: string;
   title: string;
   text: string;
-  date: Date;
+  date: Date | null;
   status: string;
   sortIndex: number;
 }
