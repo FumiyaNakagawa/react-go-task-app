@@ -1,11 +1,12 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import TaskListItem from "../containers/TaskListItem";
 import { TaskListObject, TaskListKey } from "../reducers/todos";
-import Grid from "@material-ui/core/Grid";
+import { Grid, IconButton, Modal } from "@material-ui/core";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import { DragIds } from "../actions";
 import AddTodo from "../containers/AddTodo";
 import styled from "styled-components";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
 
 interface TaskListProps {
   tasks: TaskListObject;
@@ -50,7 +51,7 @@ const TaskList: FC<TaskListProps> = ({ tasks, dragTask = () => undefined }) => {
                         <span>{tasks[status].length}</span>
                         {status}
                       </TaskCount>
-                      {backlog && <AddTodo />}
+                      {backlog && <StyledAddTodo />}
                     </Grid>
 
                     {tasks[status].map((task) => {
@@ -74,6 +75,27 @@ const TaskList: FC<TaskListProps> = ({ tasks, dragTask = () => undefined }) => {
   );
 };
 
+const AddTodoComponent: FC<{}> = () => {
+  const [open, setOpen] = useState(false);
+
+  const addTodo = () => {
+    if (open) {
+      setOpen(false);
+    } else {
+      setOpen(true);
+    }
+  };
+
+  return (
+    <>
+      <IconButton aria-label="delete" onClick={addTodo}>
+        <AddCircleIcon />
+      </IconButton>
+      {open && <AddTodo />}
+    </>
+  );
+};
+
 const StyledTaskList = styled.div`
   margin: 8px;
   border: 1px solid lightgrey;
@@ -89,6 +111,10 @@ const TaskCount = styled.p`
     background: #cccccc;
     border-radius: 50%;
   }
+`;
+
+const StyledAddTodo = styled(AddTodoComponent)`
+  display: inline-block;
 `;
 
 export default TaskList;
