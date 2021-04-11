@@ -78,27 +78,20 @@ const TaskList: FC<TaskListProps> = ({ tasks, dragTask = () => undefined }) => {
 const AddTodoComponent: FC<{}> = () => {
   const [open, setOpen] = useState(false);
 
-  const modalOpen = () => {
-    setOpen(true);
-  };
-
-  const modalClose = () => {
-    setOpen(false);
+  const addTodo = () => {
+    if (open) {
+      setOpen(false);
+    } else {
+      setOpen(true);
+    }
   };
 
   return (
     <>
-      <IconButton aria-label="delete" onClick={modalOpen}>
+      <IconButton aria-label="delete" onClick={addTodo}>
         <AddCircleIcon />
       </IconButton>
-      <Modal
-        open={open}
-        onClose={modalClose}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-      >
-        <AddTodo />
-      </Modal>
+      {open && <AddTodo />}
     </>
   );
 };
