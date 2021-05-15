@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react";
 import TaskListItem from "../containers/TaskListItem";
 import { TaskListObject, TaskListKey } from "../reducers/todos";
-import { Grid, IconButton, Modal } from "@material-ui/core";
+import { Grid, IconButton } from "@material-ui/core";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import { DragIds } from "../actions";
 import AddTodo from "../containers/AddTodo";
